@@ -15,14 +15,36 @@
 }
 
 body {
-    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    font-family: -apple-system, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, Lexand;
     color: var(--ink);
     background-color: var(--paper);
     line-height: 1.6;
 }
 
+.herotext{
+	font-size: 110px
+}
+
 h1, .brand {
     font-family: "Space Grotesk", -apple-system, sans-serif;
+    font-size: 68px
+}
+
+h2{
+	font-size:42px
+}
+
+h3{
+	font-size:26px
+}
+
+p, .teks{
+	font-family: "Space Grotesk";
+	font-size:26px
+}
+
+ul{
+    padding: 0 1.5rem;
 }
 
 .container {
@@ -63,6 +85,7 @@ h1, .brand {
 .hero {
     padding: 4.5rem 0 5rem;
 }
+
 
 .hero-grid {
     display: grid;
