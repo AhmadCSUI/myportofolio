@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from main.models import Experience
+from main.models import Experience, Docs
 
 # Create your views here.
 full_name = "Ahmad S. Zorya"
@@ -23,12 +23,14 @@ def show_main(request):
 
 def show_experience(request):
     context = {
-        "name": "Ahmad",
+        "name":name,
         "experience_list": Experience.objects.all(),
     }
     return render(request, "experience.html", context)
 
 def show_docs(request):
     context = {
+            "name": name,
+            "docs_list" = Docs.objects.all(),
             }
     return render(request, "docs.html", context)
