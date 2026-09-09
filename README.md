@@ -3,4 +3,4 @@ NPM: 2506541894
 Kelas: PBP D
 
 AI Use:
-- setting up mdeditor in settings.py
+- setting up mdeditor in portofolio/settings.py & portofolio/urls.py
