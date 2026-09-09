@@ -1,6 +1,7 @@
-.env
+.env*
 .env.prod
 .venv
+.venv/**
 *.log
 *.pot
 *.pyc
