@@ -155,9 +155,6 @@ MAILERS = {
 }
 
 MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIRm 'media')
-
-MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MDEDITOR_CONFIGS = {
