@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'mdeditor',
     'main',
 ]
 
@@ -151,4 +152,21 @@ MAILERS = {
     'default': {
         'BACKEND': 'django.core.mail.backends.console.EmailBackend',
     },
+}
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIRm 'media')
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+MDEDITOR_CONFIGS = {
+    'default': {
+        'width': '100%',
+        'height': 500,
+        'toolbar': ["undo", "redo", "|", "bold", "del", "italic", "quote", "ucwords", "uppercase", "lowercase", "|", "h1", "h2", "h3", "h5", "h6", "|", "list-ul", "list-ol", "hr", "|", "link", "image", "code", "preformatted-text", "code-block", "table", "datetime", "emoji", "html-entities", "pagebreak", "goto-line", "|", "help", "info", "||", "preview", "watch", "|", "fullscreen"],
+        'upload_image_endpoint': '/mdeditor/uploads/', # The endpoint that handles image uploads
+        'watch': True,
+        'lineWrapping': True,
+    }
 }
