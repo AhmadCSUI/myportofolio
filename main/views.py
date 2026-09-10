@@ -31,6 +31,6 @@ def show_experience(request):
 def show_docs(request):
     context = {
             "name": name,
-            "docs_list" = Docs.objects.all(),
+            "docs_list": Docs.objects.all(),
             }
     return render(request, "docs.html", context)

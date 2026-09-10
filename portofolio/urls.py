@@ -23,7 +23,7 @@ from mdeditor import views as mdeditor_views
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("main.urls")),
-    path('mdeditor/uploads/', mdeditor_views.upload_image, name='mdeditor_upload_image'),
+    path("mdeditor/", include("mdeditor.urls")),
 ]
 
 if settings.DEBUG:
