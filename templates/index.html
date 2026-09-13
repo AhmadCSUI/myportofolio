@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ name }} - Portfolio</title>
+    <title>Ahmad - Portfolio</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
@@ -12,11 +12,10 @@
 <body>
     <header class="site-header">
         <div class="container">
-<a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
-<nav>
-    <a href="{% url 'main:show_main' %}">Profile</a>
-    <a href="{% url 'main:show_experience' %}">Experience</a>
-</nav>
+            <a href="#main-profile" class="brand">Ahmad</a>
+            <nav>
+                <a href="#main-profile">Profile</a>
+            </nav>
         </div>
     </header>
 
@@ -25,26 +24,26 @@
             <div class="container hero-grid">
                 <div class="hero-identity">
                     <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
-                    <h1 class="herotext">{{ name }}</h1>
+                    <h1 class="herotext">Ahmad</h1>
                 </div>
                 <div class="hero-photo">
                     <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/AiM_Palestine_Border.jpg" alt="{{ name }}'s Logo">
+                    <img class="avatar" src="/static/img/AiM_Palestine_Border.jpg" alt="Ahmad's Logo">
                 </div>
                 <div class="hero-details">
-			<p class="bio">{{ bio }}</p>
+                    <p class="bio">Sleeper</p>
                     <dl class="meta-list">
                         <div class="meta-row">
                             <dt>NPM</dt>
-                            <dd>{{ npm }}</dd>
+                            <dd>2506541894</dd>
                         </div>
                         <div class="meta-row">
                             <dt>Program</dt>
-			    <dd>{{ study_program }}</dd>
+                            <dd>S1 Ilmu Komputer</dd>
                         </div>
                     </dl>
                     <div class="social-links">
-                        <a href="https://github.com/{{ name }}CSUI" class="social-link">GitHub</a>
+                        <a href="https://github.com/AhmadCSUI" class="social-link">GitHub</a>
 			<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="social-link">LinkedIn</a>
                         <a href="mailto:ahmad.shanahan@cs.ui.ac.id" class="social-link">Email</a>
 		    </div>
@@ -72,7 +71,7 @@
 
     <footer class="site-footer">
         <div class="container">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
+            <p>&copy; 2026 Ahmad. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
     </footer>
 </body>

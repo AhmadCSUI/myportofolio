@@ -155,6 +155,12 @@ MAILERS = {
 }
 
 MEDIA_URL = '/media/'
+<<<<<<< Updated upstream
+=======
+MEDIA_ROOT = os.path.join(BASE_DIRm 'media')
+
+MEDIA_URL = '/media/'
+>>>>>>> Stashed changes
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 MDEDITOR_CONFIGS = {

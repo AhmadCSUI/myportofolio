@@ -31,6 +31,10 @@ def show_experience(request):
 def show_docs(request):
     context = {
             "name": name,
+<<<<<<< Updated upstream
             "docs_list": Docs.objects.all(),
+=======
+            "docs_list" = Docs.objects.all(),
+>>>>>>> Stashed changes
             }
     return render(request, "docs.html", context)
