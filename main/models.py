@@ -24,3 +24,22 @@ class Experience(models.Model):
     @property
     def is_ongoing(self):
         return self.ended_at is None
+
+class Education(models.Model):
+    EDUCATION_CHOICES = [
+        ('informal', 'Informal Education'),
+        ('formal', 'Formal Education'),
+    ]
+    
+    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    title = models.CharField(max_length=255)
+    score = models.FloatField(default=0.00)
+    category = models.CharField(max_length=20, choices=EDUCATION_CHOICES, default='formal')
+    started_at = models.DateTimeField(auto_now_add=True)
+    ended_at = models.DateTimeField(blank=True, null=True)
+    def __str__(self):
+        return self.title
+    
+    @property
+    def is_ongoing(self):
+        return self.ended_at is None
