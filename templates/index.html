@@ -1,5 +1,7 @@
-{% extends 'base.html' %}
-
+{% extends "base.html" %}
+{% block meta %}
+    <title>Home - {{ name }}</title>
+{% endblock meta %}
 {% block content %}
 <main>
     <section class="hero" id="main-profile">
