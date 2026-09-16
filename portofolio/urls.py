@@ -21,5 +21,4 @@ from main.views import create_education
 urlpatterns = [
     path("admin/", admin.site.urls),
     path("", include("main.urls")),
-    path("education/add/", create_education, name="create_education"),
 ]
