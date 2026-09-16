@@ -10,4 +10,5 @@ urlpatterns = [
     path("education/", show_education, name="show_education"),
     path("education/add/", create_education, name="create_education"),
     path("api/educations/", get_educations_json, name="get_educations_json")
+    path("educations/<uuid:education_id>/delete/",delete_education,name="delete_education")
 ]
