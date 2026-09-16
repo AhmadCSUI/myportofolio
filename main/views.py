@@ -94,4 +94,4 @@ def get_educations_json(request):
         educations = educations.filter(title__icontains=title_query)
 
     educations_json = serializers.serialize("json", educations)
-    return HttpResponse(projects_json, content_type="application/json")
+    return HttpResponse(educations_json, content_type="application/json")
