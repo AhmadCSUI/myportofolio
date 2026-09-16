@@ -31,9 +31,9 @@ class EducationForm(ModelForm):
             "score": NumberInput(
                 attrs={
                     "placeholder": "67.67",
-                    "min" = 0,
-                    "max" = 100,
-                    "step" = 0.01,
+                    "min" : 0,
+                    "max" : 100,
+                    "step" : 0.01,
                 }
             ),
             "category": TextInput(
@@ -44,17 +44,17 @@ class EducationForm(ModelForm):
             "started_at": NumberInput(
                 attrs={
                     "placeholder": "2001",
-                    "min" = 0,
-                    "max" = 100,
-                    "step" = 1,
+                    "min" : 0,
+                    "max" : 100,
+                    "step" : 1,
                 }
             ),
             "ended_at": NumberInput(
                 attrs={
-                    "placeholder": "2067",
-                    "min" = 0,
-                    "max" = 100,
-                    "step" = 1,
+                    "placeholder": "2001",
+                    "min" : 0,
+                    "max" : 100,
+                    "step" : 1,
                 }
             ),
         }
