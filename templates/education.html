@@ -7,8 +7,25 @@
     <section class="experience-section" id="education">
         <div class="container">
             <p class="section-kicker">Pendidikan yang menempa diri ini</p>
+	    <div class="education-header">
             <h1>Education</h1>
-
+		<a href="{% url 'main:create_education' %}"
+                       class="button education-add-button">
+                        <span aria-hidden="true">+</span>
+                        Tambah Riwayat Pendidikan
+                </a>
+	    </div>
+		<form method="get"
+                      action="{% url 'main:show_education' %}"
+                      class="education-search">
+                    <input type="search"
+                           name="title"
+                           value="{{ title_query }}"
+                           placeholder="Cari berdasarkan nama lembaga"
+                           class="education-search__input"
+                           aria-label="Cari berdasarkan nama lembaga">
+                    <button type="submit" class="button">Cari</button>
+                </form>
             <div class="experience-grid">
                 {% for education in education_list %}
                     <article class="experience-card">
