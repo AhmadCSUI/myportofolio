@@ -1,83 +1,52 @@
 {% extends 'base.html' %}
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ name }} - Portfolio</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/static/css/style.css">
-</head>
-<body>
-    <header class="site-header">
-        <div class="container">
-<a href="{% url 'main:show_main' %}" class="brand">{{ name }}</a>
-<nav>
-    <a href="{% url 'main:show_main' %}">Profile</a>
-    <a href="{% url 'main:show_experience' %}">Experience</a>
-    <a href="{% url 'main:show_education' %}">Education</a>
-</nav>
-        </div>
-    </header>
 
-    {% block content %}
-    <main>
-        <section class="hero" id="main-profile">
-            <div class="container hero-grid">
-                <div class="hero-identity">
-                    <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
-                    <h1 class="herotext">{{ name }}</h1>
-                </div>
-                <div class="hero-photo">
-                    <div class="photo-block"></div>
-                    <img class="avatar" src="/static/img/AiM_Palestine_Border.jpg" alt="{{ name }}'s Logo">
-                </div>
-                <div class="hero-details">
-			<p class="bio">{{ bio }}</p>
-                    <dl class="meta-list">
-                        <div class="meta-row">
-                            <dt>NPM</dt>
-                            <dd>{{ npm }}</dd>
-                        </div>
-                        <div class="meta-row">
-                            <dt>Program</dt>
-			    <dd>{{ study_program }}</dd>
-                        </div>
-                    </dl>
-                    <div class="social-links">
-                        <a href="https://github.com/{{ name }}CSUI" class="social-link">GitHub</a>
-			<a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="social-link">LinkedIn</a>
-                        <a href="mailto:ahmad.shanahan@cs.ui.ac.id" class="social-link">Email</a>
-		    </div>
+{% block content %}
+<main>
+    <section class="hero" id="main-profile">
+        <div class="container hero-grid">
+            <div class="hero-identity">
+                <p class="hero-kicker">Computer Science &middot; Universitas Indonesia</p>
+                <h1 class="herotext">{{ name }}</h1>
+            </div>
+            <div class="hero-photo">
+                <div class="photo-block"></div>
+                <img class="avatar" src="/static/img/AiM_Palestine_Border.jpg" alt="{{ name }}'s Logo">
+            </div>
+            <div class="hero-details">
+                <p class="bio">{{ bio }}</p>
+                <dl class="meta-list">
+                    <div class="meta-row">
+                        <dt>NPM</dt>
+                        <dd>{{ npm }}</dd>
+                    </div>
+                    <div class="meta-row">
+                        <dt>Program</dt>
+                        <dd>{{ study_program }}</dd>
+                    </div>
+                </dl>
+                <div class="social-links">
+                    <a href="https://github.com/{{ name }}CSUI" class="social-link">GitHub</a>
+                    <a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" class="social-link">LinkedIn</a>
+                    <a href="mailto:ahmad.shanahan@cs.ui.ac.id" class="social-link">Email</a>
                 </div>
             </div>
-        </section>
-	<section>
-		<div class="container yap-grid">
-			<h1 id="about-me">About Me</h1>
-				<p>Likes cats, kitten, sleep, eat, books.
-				Hates cigarette&#39;s smoke</p>
-			<h1 id="skills">Skills</h1>
-			<ul>
-				<li>Yap</li>
-				<li>Sleep</li>
-				<li>Code</li>
-			</ul>
-			<h1 id="experience">Experience</h1>
-			<ul>
-				<li>Live</li>
-			</ul>
-		</div>
-	</section>
-    </main>
-    {% endblock content %}
-
-    <footer class="site-footer">
-        <div class="container">
-            <p>&copy; 2026 {{ name }}. Fakultas Ilmu Komputer, Universitas Indonesia.</p>
         </div>
-    </footer>
-</body>
-</html>
+    </section>
+    <section>
+        <div class="container yap-grid">
+            <h1 id="about-me">About Me</h1>
+            <p>Likes cats, kitten, sleep, eat, books. Hates cigarette's smoke</p>
+            <h1 id="skills">Skills</h1>
+            <ul>
+                <li>Yap</li>
+                <li>Sleep</li>
+                <li>Code</li>
+            </ul>
+            <h1 id="experience">Experience</h1>
+            <ul>
+                <li>Live</li>
+            </ul>
+        </div>
+    </section>
+</main>
+{% endblock content %}
