@@ -44,16 +44,14 @@ class EducationForm(ModelForm):
             "started_at": NumberInput(
                 attrs={
                     "placeholder": "2001",
-                    "min" : 0,
-                    "max" : 100,
+                    "min" : 1970,
                     "step" : 1,
                 }
             ),
             "ended_at": NumberInput(
                 attrs={
-                    "placeholder": "2001",
-                    "min" : 0,
-                    "max" : 100,
+                    "placeholder": "2067",
+                    "min" : 1970,
                     "step" : 1,
                 }
             ),
