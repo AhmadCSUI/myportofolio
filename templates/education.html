@@ -7,25 +7,25 @@
     <section class="experience-section" id="education">
         <div class="container">
             <p class="section-kicker">Pendidikan yang menempa diri ini</p>
-	    <div class="education-header">
-            <h1>Education</h1>
-		<a href="{% url 'main:create_education' %}"
-                       class="button education-add-button">
-                        <span aria-hidden="true">+</span>
-                        Tambah Riwayat Pendidikan
+            <div class="education-header">
+                <h1>Education</h1>
+                <a href="{% url 'main:create_education' %}"
+                   class="button education-add-button">
+                    <span aria-hidden="true">+</span>
+                    Tambah Riwayat Pendidikan
                 </a>
-	    </div>
-		<form method="get"
-                      action="{% url 'main:show_education' %}"
-                      class="education-search">
-                    <input type="search"
-                           name="title"
-                           value="{{ title_query }}"
-                           placeholder="Cari berdasarkan nama lembaga"
-                           class="education-search__input"
-                           aria-label="Cari berdasarkan nama lembaga">
-                    <button type="submit" class="button">Cari</button>
-                </form>
+            </div>
+            <form method="get"
+                  action="{% url 'main:show_education' %}"
+                  class="education-search">
+                <input type="search"
+                       name="title"
+                       value="{{ title_query }}"
+                       placeholder="Cari berdasarkan nama lembaga"
+                       class="education-search__input"
+                       aria-label="Cari berdasarkan nama lembaga">
+                <button type="submit" class="button">Cari</button>
+            </form>
             <div class="experience-grid">
                 {% for education in educations_list %}
                     <article class="experience-card">
@@ -36,16 +36,20 @@
                         <p class="experience-description">
                             {{ education.score }}
                         </p>
-
-                        {% if education.is_ongoing %}
-                            <p class="experience-status">Sedang berlangsung</p>
-                        {% else %}
-                            <p class="experience-status">Selesai</p>
-                        {% endif %}
+                        <p class="experience-status">
+                            {{ education.started_at }}{% if education.ended_at %} - {{ education.ended_at }}{% else %} - Sekarang{% endif %}
+                        </p>
+                        <div class="experience-actions">
+                            <a href="{% url 'main:edit_education' education.id %}" class="button button-secondary">Edit</a>
+                            <form method="post" action="{% url 'main:delete_education' education.id %}" style="display: inline;">
+                                {% csrf_token %}
+                                <button type="submit" class="button button-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
+                            </form>
+                        </div>
                     </article>
                 {% empty %}
                     <p class="empty-state">
-                        Belum ada pengalaman yang ditambahkan.
+                        Belum ada pendidikan yang ditambahkan.
                     </p>
                 {% endfor %}
             </div>

@@ -58,20 +58,6 @@ def delete_education(request, education_id):
 
     return redirect("main:education")
 
-# def show_education(request):
-#     json_response = get_educations_json(reqeust)
-#     educations = serializers.deserialize(
-#             "json",
-#             json_response.content.decode("urf-8"),
-#         )
-#
-#     educations = [Education.object for pro
-#     context = {
-#            "name" : name,
-#            "education_list": Education.objects.all(),
-#             }
-#     return render(request, "education.html", context)
-
 def create_education(request):
     form = EducationForm(request.POST or None)
 
@@ -83,6 +69,25 @@ def create_education(request):
     context = {
         "name":name,
         "form": form,
+        "form_title": "Tambah Pendidikan",
+        "submit_text": "Tambah",
+    }
+    return render(request, "education_form.html", context)
+
+def edit_education(request, education_id):
+    education = get_object_or_404(Education, pk=education_id)
+    form = EducationForm(request.POST or None, instance=education)
+
+    if request.method == "POST" and form.is_valid():
+        form.save()
+        messages.success(request, "Pendidikan berhasil diperbarui!")
+        return redirect("main:show_education")
+
+    context = {
+        "name": name,
+        "form": form,
+        "form_title": "Edit Pendidikan",
+        "submit_text": "Simpan",
     }
     return render(request, "education_form.html", context)
 
