@@ -21,7 +21,7 @@ def register(request):
         return redirect("main:login")
 
     context = {
-        "name": "Ahmad",
+        "name": name,
         "form": form,
     }
     return render(request, "register.html", context)
@@ -30,11 +30,14 @@ def login_user(request):
     form = AuthenticationForm(request, data=request.POST or None)
 
     if request.method == "POST" and form.is_valid():
-        login(request, form.get_user())
-        return redirect("main:show_main")
+        user = form.get_user()
+        login(request, user)
+        response = redirect("main:show_main")
+        response.set_cookie('last_login', datetime.datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
+        return response
 
     context = {
-        "name": "Ahmad",
+        "name": name,
         "form": form,
     }
     return render(request, "login.html", context)
