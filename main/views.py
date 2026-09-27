@@ -38,6 +38,10 @@ def login_user(request):
     }
     return render(request, "login.html", context)
 
+def logout_user(request):
+    logout(request)
+    return redirect("main:show_main")
+
 def show_main(request):
     context = {
         "name": name,

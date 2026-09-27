@@ -12,6 +12,9 @@ urlpatterns = [
     path("", show_main, name="show_main"),
     path("experience/", show_experience, name="show_experience"),
     path("education/", show_education, name="show_education"),
+    path("register/", register, name="register"),
+    path("login/", login_user, name="login"),
+    path("logout/", logout_user, name="logout"),
     # Education CRUD
     path("education/add/", create_education, name="create_education"),
     path("education/<uuid:education_id>/edit/", edit_education, name="edit_education"),
