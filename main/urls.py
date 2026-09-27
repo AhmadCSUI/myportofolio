@@ -4,6 +4,7 @@ from main.views import (
     show_main, show_experience, show_education,
     create_education, edit_education, delete_education, get_educations_json,
     create_experience, edit_experience, delete_experience, get_experiences_json,
+    register, login_user, logout_user
 )
 
 app_name = "main"
