@@ -8,9 +8,10 @@ from main.forms import EducationForm, ExperienceForm
 from django.contrib.auth import login, logout
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 
-name = "Ahmad"
-full_name = "Ahmad S Zorya"
-npm = 2506541894
+NAME = "Ahmad"
+FULL_NAME = "Ahmad S Zorya"
+NPM = "2506541894"
+PRODI = "S1 Ilmu Komputer"
 
 def register(request):
     form = UserCreationForm(request.POST or None)
@@ -21,7 +22,7 @@ def register(request):
         return redirect("main:login")
 
     context = {
-        "name": name,
+        "name": NAME,
         "form": form,
     }
     return render(request, "register.html", context)
@@ -37,7 +38,7 @@ def login_user(request):
         return response
 
     context = {
-        "name": name,
+        "name": NAME,
         "form": form,
     }
     return render(request, "login.html", context)
@@ -47,14 +48,16 @@ def logout_user(request):
     return redirect("main:show_main")
 
 def show_main(request):
+    last_login = request.COOKIES.get('last_login', 'Belum ada sesi login / Cookie tidak ditemukan')
     context = {
-        "name": name,
-        "npm": npm,
+        "name":NAME,
+        "npm":NPM,
         "study_program": "S1 Ilmu Komputer",
         "bio": (
-            "Sukatidur"
-            " Sukakucing"
+            "Mahasiswa Ilmu Komputer Universitas Indonesia yang tertarik "
+            "pada pengembangan perangkat lunak dan pendidikan."
         ),
+        "last_login": last_login,
     }
     return render(request, "index.html", context)
 
@@ -68,7 +71,7 @@ def show_experience(request):
     experiences = [experience.object for experience in experiences]
     
     context = {
-        "name": name,
+        "name": NAME,
         "experiences_list": experiences,
     }
     return render(request, "experience.html", context)
@@ -83,7 +86,7 @@ def show_education(request):
     title_query = request.GET.get("title", "").strip()
 
     context = {
-        "name":name,
+        "name":NAME,
         "educations_list": educations,
         "title_query": title_query,
     }
@@ -100,7 +103,7 @@ def create_education(request):
         return redirect("main:show_education")
 
     context = {
-        "name":name,
+        "name":NAME,
         "form": form,
         "form_title": "Tambah Pendidikan",
         "submit_text": "Tambah",
@@ -117,7 +120,7 @@ def edit_education(request, education_id):
         return redirect("main:show_education")
 
     context = {
-        "name": name,
+        "name": NAME,
         "form": form,
         "form_title": "Edit Pendidikan",
         "submit_text": "Simpan",
@@ -155,7 +158,7 @@ def create_experience(request):
         return redirect("main:show_experience")
 
     context = {
-        "name": name,
+        "name": NAME,
         "form": form,
         "form_title": "Tambah Pengalaman",
         "submit_text": "Tambah",
@@ -172,7 +175,7 @@ def edit_experience(request, experience_id):
         return redirect("main:show_experience")
 
     context = {
-        "name": name,
+        "name": NAME,
         "form": form,
         "form_title": "Edit Pengalaman",
         "submit_text": "Simpan",
