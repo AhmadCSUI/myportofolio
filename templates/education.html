@@ -41,6 +41,8 @@
                         <p class="experience-status">
                             {{ education.started_at }}{% if education.ended_at %} - {{ education.ended_at }}{% else %} - Sekarang{% endif %}
                         </p>
+                        {% include "components/education_star.html" with education=education %}
+                        {% if user.is_superuser %}
                         <div class="experience-actions">
                             <a href="{% url 'main:edit_education' education.id %}" class="button button-secondary">Edit</a>
                             <form method="post" action="{% url 'main:delete_education' education.id %}" style="display: inline;">
@@ -48,6 +50,7 @@
                                 <button type="submit" class="button button-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                             </form>
                         </div>
+                        {% endif %}
                     </article>
                 {% empty %}
                     <p class="empty-state">
