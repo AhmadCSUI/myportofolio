@@ -186,7 +186,7 @@ def get_educations_json(request):
     if title_query:
         educations = educations.filter(title__icontains=title_query)
 
-    educations_json = serializers.serialize("json", educations)
+    educations_json = serializers.serialize("json", educations, use_natural_foreign_keys=True)
     return HttpResponse(educations_json, content_type="application/json")
 
 # ============== Experience CRUD ==============
@@ -245,5 +245,5 @@ def delete_experience(request, experience_id):
 
 def get_experiences_json(request):
     experiences = Experience.objects.all()
-    experiences_json = serializers.serialize("json", experiences)
+    experiences_json = serializers.serialize("json", experiences, use_natural_foreign_keys=True)
     return HttpResponse(experiences_json, content_type="application/json")
