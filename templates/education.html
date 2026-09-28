@@ -42,15 +42,17 @@
                             {{ education.started_at }}{% if education.ended_at %} - {{ education.ended_at }}{% else %} - Sekarang{% endif %}
                         </p>
                         {% include "components/education_star.html" with education=education %}
-                        {% if user.is_superuser %}
+{% if user.is_superuser or user.groups.filter.name='Editor' %}
                         <div class="experience-actions">
                             <a href="{% url 'main:edit_education' education.id %}" class="button button-secondary">Edit</a>
+{% if user.is_superuser %}
                             <form method="post" action="{% url 'main:delete_education' education.id %}" style="display: inline;">
                                 {% csrf_token %}
                                 <button type="submit" class="button button-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
                             </form>
+{% endif %}
                         </div>
-                        {% endif %}
+{% endif %}
                     </article>
                 {% empty %}
                     <p class="empty-state">
