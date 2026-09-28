@@ -1,3 +1,4 @@
+{% if user.is_authenticated %}
 <form method="post" action="{% url 'main:toggle_experience_star' experience.id %}" class="star-form">
     {% csrf_token %}
     <button type="submit"
@@ -8,3 +9,12 @@
         <span class="star-count">{{ experience.starred_by.count }}</span>
     </button>
 </form>
+{% else %}
+<div class="star-form">
+    <span class="button button-star" title="Login untuk memberi star">
+        <span aria-hidden="true">★</span>
+        Star
+        <span class="star-count">{{ experience.starred_by.count }}</span>
+    </span>
+</div>
+{% endif %}
