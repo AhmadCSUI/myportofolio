@@ -10,6 +10,12 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import PermissionDenied
 
+
+def is_editor(user):
+    """Cek apakah user adalah Editor (ada di grup Editor)."""
+    return user.groups.filter(name='Editor').exists()
+
+
 NAME = "Ahmad"
 FULL_NAME = "Ahmad S Zorya"
 NPM = "2506541894"
@@ -85,10 +91,7 @@ def show_main(request):
         "name":NAME,
         "npm":NPM,
         "study_program": "S1 Ilmu Komputer",
-        "bio": (
-            "Mahasiswa Ilmu Komputer Universitas Indonesia yang tertarik "
-            "pada pengembangan perangkat lunak dan pendidikan."
-        ),
+        "bio": "Seorang Penggembala yang akan ditanyakan terkait kawanannya.",
         "last_login": last_login,
     }
     return render(request, "index.html", context)
@@ -101,28 +104,25 @@ def show_experience(request):
         json_response.content.decode("utf-8"),
     )
     experiences = [experience.object for experience in experiences]
-    
     context = {
         "name": NAME,
         "experiences_list": experiences,
     }
     return render(request, "experience.html", context)
 
-def show_education(request):
-    json_response = get_educations_json(request)
-    educations = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-    educations = [education.object for education in educations]
-    title_query = request.GET.get("title", "").strip()
 
+def show_education(request):
+    title_query = request.GET.get("title", "").strip()
+    educations = Education.objects.all()
+    if title_query:
+        educations = educations.filter(title__icontains=title_query)
     context = {
-        "name":NAME,
+        "name": NAME,
         "educations_list": educations,
         "title_query": title_query,
     }
     return render(request, "education.html", context)
+
 
 # ============== Education CRUD ==============
 
@@ -138,16 +138,18 @@ def create_education(request):
         return redirect("main:show_education")
 
     context = {
-        "name":NAME,
+        "name": NAME,
         "form": form,
         "form_title": "Tambah Pendidikan",
         "submit_text": "Tambah",
     }
     return render(request, "education_form.html", context)
 
+
 @login_required(login_url="/login/")
 def edit_education(request, education_id):
-    if not request.user.is_superuser:
+    # Editor dan Superuser bisa edit
+    if not request.user.is_superuser and not is_editor(request.user):
         raise PermissionDenied
     education = get_object_or_404(Education, pk=education_id)
     form = EducationForm(request.POST or None, instance=education)
@@ -212,7 +214,8 @@ def create_experience(request):
 
 @login_required(login_url="/login/")
 def edit_experience(request, experience_id):
-    if not request.user.is_superuser:
+    # Editor dan Superuser bisa edit
+    if not request.user.is_superuser and not is_editor(request.user):
         raise PermissionDenied
     experience = get_object_or_404(Experience, pk=experience_id)
     form = ExperienceForm(request.POST or None, instance=experience)
