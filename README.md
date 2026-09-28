@@ -16,14 +16,31 @@ buat ngambil JSON, bisa di /api/educations/ dan /api/experiences/
 
 2. Pada Tutorial 03, kita membahas format data JSON dan XML. Mengapa JSON lebih disukai dalam pengembangan aplikasi web modern dibandingkan XML?
 
-    - Native sama JavaScript, namanya aja JavaScript Object Notation
-    - Simple (Key-Value pair), ga kayak XXML yg kek html, ada opening dan closing tag
+     - Native sama JavaScript, namanya aja JavaScript Object Notation
+     - Simple (Key-Value pair), ga kayak XXML yg kek html, ada opening dan closing tag
 
 3. Jelaskan alur yang terjadi saat kamu menggunakan fungsi view untuk mengembalikan data portofoliomu dalam bentuk JSON. Mengapa kita perlu melakukan proses serialization pada model Django sebelum datanya dikembalikan?
 
-    - View menerima request
-    - Query database, masih dalam bentuk object python/django
-    - Object di-serialize biat bisa convert dari python object ke json
-    - Data JSON di-return
+     - View menerima request
+     - Query database, masih dalam bentuk object python/django
+     - Object di-serialize biat bisa convert dari python object ke json
+     - Data JSON di-return
 
-    Perlu di-serialize biar bisa aconvert dari python object (yg strukturnya agak kompleks) ke JSON yg intuitive, readable, simple
+     Perlu di-serialize biar bisa aconvert dari python object (yg strukturnya agak kompleks) ke JSON yg intuitive, readable, simple
+
+---
+
+## Tugas 4
+
+#### Implementasi
+
+- Grup Editor dibuat pake django admin, user yg ada di grup editor bisa ngedit data model
+- buat helper function is_editor untuk ngecek apakah user termasuk editro
+- Tombol yang gabisa dipake, ga ditampilkan (sesuai role)
+
+#### AI Disclosure
+
+Tools: Cline pake model MiniMax-M2.7-highspeed
+Bagian yang dibantu AI:
+- role-based aaccess
+- django groups untuk role editor
