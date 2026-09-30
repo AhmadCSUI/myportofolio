@@ -103,6 +103,7 @@ def show_experience(request):
         "name": NAME,
         "is_editor": is_editor(request.user),
         "title_query": title_query,
+        "form": ExperienceForm(),
     }
     return render(request, "experience.html", context)
 
@@ -114,6 +115,7 @@ def show_education(request):
         "name": NAME,
         "is_editor": is_editor(request.user),
         "title_query": title_query,
+        "form": EducationForm(),
     }
     return render(request, "education.html", context)
 
