@@ -4,7 +4,8 @@ from main.views import (
     show_main, show_experience, show_education,
     create_education, edit_education, delete_education, get_educations_json,
     create_experience, edit_experience, delete_experience, get_experiences_json,
-    register, login_user, logout_user, toggle_education_star, toggle_experience_star
+    register, login_user, logout_user, toggle_education_star, toggle_experience_star,
+    create_education_ajax, create_experience_ajax
 )
 
 app_name = "main"
@@ -22,10 +23,12 @@ urlpatterns = [
     path("education/<uuid:education_id>/delete/", delete_education, name="delete_education"),
     path("api/education/", get_educations_json, name="get_educations_json"),
     path("education/<uuid:education_id>/star/", toggle_education_star, name="toggle_education_star", ),
+    path("education/add-ajax/", create_education_ajax, name="create_education_ajax"),
     # Experience CRUD
     path("experience/add/", create_experience, name="create_experience"),
     path("experience/<uuid:experience_id>/edit/", edit_experience, name="edit_experience"),
     path("experience/<uuid:experience_id>/delete/", delete_experience, name="delete_experience"),
     path("api/experience/", get_experiences_json, name="get_experiences_json"),
     path("experience/<uuid:experience_id>/star/", toggle_experience_star, name="toggle_experience_star", ),
+    path("experience/add-ajax/", create_experience_ajax, name="create_experience_ajax"),
 ]
