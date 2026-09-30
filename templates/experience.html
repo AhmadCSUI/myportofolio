@@ -2,6 +2,7 @@
 {% block meta %}
     <title>Experiences - {{ name }}</title>
 {% endblock meta %}
+
 {% block content %}
 <main>
     <section class="experience-section" id="experience">
@@ -9,47 +10,40 @@
             <p class="section-kicker">Perjalanan saya sejauh ini</p>
             <div class="education-header">
                 <h1>Experience</h1>
-{% if user.is_superuser %}
+                {% if user.is_superuser %}
                 <a href="{% url 'main:create_experience' %}"
                    class="button education-add-button">
                     <span aria-hidden="true">+</span>
                     Tambah Pengalaman
                 </a>
-{% endif %}
+                {% endif %}
             </div>
 
-            <div class="experience-grid">
-                {% for experience in experiences_list %}
-                    <article class="experience-card">
-                        <span class="experience-category">
-                            {{ experience.get_category_display }}
-                        </span>
-                        <h2>{{ experience.title }}</h2>
-                        <p class="experience-description">
-                            {{ experience.description }}
-                        </p>
-                        <p class="experience-status">
-                            {{ experience.started_at }}{% if experience.ended_at %} - {{ experience.ended_at }}{% else %} - Sekarang{% endif %}
-                        </p>
-                        {% include "components/experience_star.html" with experience=experience %}
-{% if user.is_superuser or is_editor %}
-                        <div class="experience-actions">
-                            <a href="{% url 'main:edit_experience' experience.id %}" class="button button-secondary">Edit</a>
-{% if user.is_superuser %}
-                            <form method="post" action="{% url 'main:delete_experience' experience.id %}" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="button button-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                            </form>
-{% endif %}
-                        </div>
-{% endif %}
-                    </article>
-                {% empty %}
-                    <p class="empty-state">
-                        Belum ada pengalaman yang ditambahkan.
-                    </p>
-                {% endfor %}
+            <form id="project-search-form" class="education-search">
+                <input type="search"
+                       id="search-input"
+                       name="title"
+                       value="{{ title_query }}"
+                       placeholder="Cari berdasarkan nama pengalaman"
+                       class="education-search__input"
+                       aria-label="Cari berdasarkan nama pengalaman">
+                <button type="submit" class="button">Cari</button>
+            </form>
+
+            <div id="loading" class="empty-state hide">
+                <p>Memuat experiences...</p>
             </div>
+
+            <div id="error" class="empty-state hide">
+                <p>Gagal memuat data experiences. Silakan coba lagi.</p>
+            </div>
+
+            <div id="empty" class="empty-state hide">
+                <p>Belum ada pengalaman yang ditambahkan atau ditemukan.</p>
+            </div>
+
+            <div id="grid" class="experience-grid hide"></div>
+
         </div>
     </section>
 </main>

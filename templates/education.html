@@ -2,6 +2,7 @@
 {% block meta %}
     <title>Educations - {{ name }}</title>
 {% endblock meta %}
+
 {% block content %}
 <main>
     <section class="experience-section" id="education">
@@ -12,85 +13,45 @@
             </button>
             <div class="education-header">
                 <h1>Education</h1>
-{% if user.is_superuser %}
+                {% if user.is_superuser %}
                 <a href="{% url 'main:create_education' %}"
                    class="button education-add-button">
                     <span aria-hidden="true">+</span>
                     Tambah Riwayat Pendidikan
                 </a>
-{% endif %}
+                {% endif %}
             </div>
-            <!-- <form method="get" -->
-            <!--       action="{% url 'main:show_education' %}" -->
-            <!--       class="education-search"> -->
-            <!--     <input type="search" -->
-            <!--            name="title" -->
-            <!--            value="{{ title_query }}" -->
-            <!--            placeholder="Cari berdasarkan nama lembaga" -->
-            <!--            class="education-search__input" -->
-            <!--            aria-label="Cari berdasarkan nama lembaga"> -->
-            <!--     <button type="submit" class="button">Cari</button> -->
-            <!-- </form> -->
-                <form id="project-search-form" class="project-search">
-                    <input type="search"
-                           id="search-input"
-                           name="title"
-                           value="{{ title_query }}"
-                           placeholder="Cari berdasarkan nama proyek"
-                           class="project-search__input"
-                           aria-label="Cari berdasarkan nama proyek">
-                    <button type="submit" class="button">Cari</button>
-                </form>
 
-                <!-- Loading State -->
-                <div id="loading" class="empty-state hide">
-                    <p>Memuat projects...</p>
-                </div>
+            <!-- Form Pencarian (method dan action dihapus, diberi id) -->
+            <form id="project-search-form" class="education-search">
+                <input type="search"
+                       id="search-input"
+                       name="title"
+                       value="{{ title_query }}"
+                       placeholder="Cari berdasarkan nama lembaga"
+                       class="education-search__input"
+                       aria-label="Cari berdasarkan nama lembaga">
+                <button type="submit" class="button">Cari</button>
+            </form>
 
-                <!-- Error State -->
-                <div id="error" class="empty-state hide">
-                    <p>Gagal memuat data projects. Silakan coba lagi.</p>
-                </div>
-
-                <!-- Empty State -->
-                <div id="empty" class="empty-state hide">
-                    <p>Belum ada proyek yang ditambahkan atau ditemukan.</p>
-                </div>
-
-                <!-- Project Grid -->
-                <div id="grid" class="experience-grid project-grid hide"></div>
-            <div class="experience-grid">
-                {% for education in educations_list %}
-                    <article class="experience-card">
-                        <span class="experience-category">
-                            {{ education.get_category_display }}
-                        </span>
-                        <h2>{{ education.title }}</h2>
-                        <p class="experience-description">
-                            {{ education.score }}
-                        </p>
-                        <p class="experience-status">
-                            {{ education.started_at }}{% if education.ended_at %} - {{ education.ended_at }}{% else %} - Sekarang{% endif %}
-                        </p>
-                        {% include "components/education_star.html" with education=education %}
-{% if user.is_superuser or is_editor %}
-                        <div class="experience-actions">
-                            <a href="{% url 'main:edit_education' education.id %}" class="button button-secondary">Edit</a>
-{% if user.is_superuser %}
-                            <form method="post" action="{% url 'main:delete_education' education.id %}" style="display: inline;">
-                                {% csrf_token %}
-                                <button type="submit" class="button button-danger" onclick="return confirm('Yakin ingin menghapus?')">Hapus</button>
-                            </form>
-{% endif %}
-                        </div>
-{% endif %}
-                    </article>
-                {% empty %}
-                    <p class="empty-state">
-                        Belum ada pendidikan yang ditambahkan.
-                    </p>
-                {% endfor %}
+            <!-- Loading State -->
+            <div id="loading" class="empty-state hide">
+                <p>Memuat educations...</p>
             </div>
+
+            <!-- Error State -->
+            <div id="error" class="empty-state hide">
+                <p>Gagal memuat data educations. Silakan coba lagi.</p>
+            </div>
+
+            <!-- Empty State -->
+            <div id="empty" class="empty-state hide">
+                <p>Belum ada pendidikan yang ditambahkan atau ditemukan.</p>
+            </div>
+
+            <!-- Education Grid (Wadah kosong) -->
+            <div id="grid" class="experience-grid hide"></div>
+
         </div>
     </section>
 </main>
