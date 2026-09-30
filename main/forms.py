@@ -1,4 +1,6 @@
 from django.forms import ModelForm, TextInput, NumberInput, URLInput, Textarea
+from django.utils.html import strip_tags
+from django.core.exceptions import ValidationError
 from main.models import Education, Experience
 
 class EducationForm(ModelForm):
@@ -56,6 +58,15 @@ class EducationForm(ModelForm):
             ),
         }
 
+    def clean_title(self):
+        title = strip_tags(self.cleaned_data.get("title", "")).strip()
+        if not title:
+            raise ValidationError("Nama lembaga tidak boleh hanya berisi tag HTML.")
+        return title
+
+    def clean_category(self):
+        return strip_tags(self.cleaned_data.get("category", "")).strip()
+
     def clean(self):
         cleaned_data = super().clean()
         started_at = cleaned_data.get("started_at")
@@ -68,6 +79,7 @@ class EducationForm(ModelForm):
             )
 
         return cleaned_data
+
 
 class ExperienceForm(ModelForm):
     class Meta:
@@ -128,6 +140,18 @@ class ExperienceForm(ModelForm):
                 }
             ),
         }
+
+    def clean_title(self):
+        title = strip_tags(self.cleaned_data.get("title", "")).strip()
+        if not title:
+            raise ValidationError("Judul pengalaman tidak boleh hanya berisi tag HTML.")
+        return title
+
+    def clean_description(self):
+        return strip_tags(self.cleaned_data.get("description", "")).strip()
+
+    def clean_category(self):
+        return strip_tags(self.cleaned_data.get("category", "")).strip()
 
     def clean(self):
         cleaned_data = super().clean()
