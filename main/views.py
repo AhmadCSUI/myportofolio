@@ -2,7 +2,7 @@ import datetime
 from main.models import Experience, Education
 from django.contrib import messages
 from django.core import serializers
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 from django.shortcuts import get_object_or_404, redirect, render
 from main.forms import EducationForm, ExperienceForm
 from django.contrib.auth import login, logout
@@ -190,8 +190,30 @@ def get_educations_json(request):
     if title_query:
         educations = educations.filter(title__icontains=title_query)
 
-    educations_json = serializers.serialize("json", educations, use_natural_foreign_keys=True)
-    return HttpResponse(educations_json, content_type="application/json")
+
+    data = []
+    for education in educations:
+        starred_users = education.starred_by.all()
+        is_starred = request.user in starred_users if request.user.is_authenticated else False
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        data.append({
+            "pk": str(education.id),
+            "fields": {
+                "title": education.title,
+                "score": education.score,
+                "category": education.category,
+                "category_display": education.get_category_display(),
+                "started_at": education.started_at,
+                "ended_at": education.ended_at,
+                "is_ongoing": education.is_ongoing,
+                "star_count": starred_users.count(),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            },
+        })
+
+    return JsonResponse(data, safe=False)
 
 # ============== Experience CRUD ==============
 
