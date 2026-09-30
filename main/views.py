@@ -107,6 +107,7 @@ def show_experience(request):
     context = {
         "name": NAME,
         "experiences_list": experiences,
+        "is_editor": is_editor(request.user),
     }
     return render(request, "experience.html", context)
 
@@ -119,6 +120,7 @@ def show_education(request):
     context = {
         "name": NAME,
         "educations_list": educations,
+        "is_editor": is_editor(request.user),
         "title_query": title_query,
     }
     return render(request, "education.html", context)

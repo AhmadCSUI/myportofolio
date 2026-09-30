@@ -32,7 +32,7 @@
                             {{ experience.started_at }}{% if experience.ended_at %} - {{ experience.ended_at }}{% else %} - Sekarang{% endif %}
                         </p>
                         {% include "components/experience_star.html" with experience=experience %}
-{% if user.is_superuser or user.groups.filter.name='Editor' %}
+{% if user.is_superuser or is_editor %}
                         <div class="experience-actions">
                             <a href="{% url 'main:edit_experience' experience.id %}" class="button button-secondary">Edit</a>
 {% if user.is_superuser %}
