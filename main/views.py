@@ -271,6 +271,41 @@ def delete_experience(request, experience_id):
     return redirect("main:experience")
 
 def get_experiences_json(request):
-    experiences = Experience.objects.all()
-    experiences_json = serializers.serialize("json", experiences, use_natural_foreign_keys=True)
-    return HttpResponse(experiences_json, content_type="application/json")
+    title_query = request.GET.get("title", "").strip()
+
+    experiences = Experience.objects.prefetch_related("starred_by").all()
+
+    if title_query:
+        experiences = experiences.filter(title__icontains=title_query)
+
+    data = []
+    for exp in experiences:
+        starred_users = exp.starred_by.all()
+        is_starred = (
+            request.user in starred_users
+            if request.user.is_authenticated
+            else False
+        )
+        starred_by_names = ", ".join([u.username for u in starred_users])
+
+        # Penanganan thumbnail agar tetap aman jika bernilai None / kosong
+        thumbnail_url = exp.thumbnail if exp.thumbnail else None
+
+        data.append({
+            "pk": str(exp.id),
+            "fields": {
+                "title": exp.title,
+                "description": exp.description,
+                "category": exp.category,
+                "category_display": exp.get_category_display(),
+                "thumbnail": thumbnail_url,
+                "started_at": exp.started_at,
+                "ended_at": exp.ended_at,
+                "is_ongoing": exp.is_ongoing,
+                "star_count": len(starred_users),
+                "is_starred": is_starred,
+                "starred_by_names": starred_by_names,
+            },
+        })
+
+    return JsonResponse(data, safe=False)
