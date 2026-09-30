@@ -98,28 +98,20 @@ def show_main(request):
 
 
 def show_experience(request):
-    json_response = get_experiences_json(request)
-    experiences = serializers.deserialize(
-        "json",
-        json_response.content.decode("utf-8"),
-    )
-    experiences = [experience.object for experience in experiences]
+    title_query = request.GET.get("title", "").strip()
     context = {
         "name": NAME,
-        "experiences_list": experiences,
         "is_editor": is_editor(request.user),
+        "title_query": title_query,
     }
     return render(request, "experience.html", context)
 
 
 def show_education(request):
     title_query = request.GET.get("title", "").strip()
-    educations = Education.objects.all()
-    if title_query:
-        educations = educations.filter(title__icontains=title_query)
+
     context = {
         "name": NAME,
-        "educations_list": educations,
         "is_editor": is_editor(request.user),
         "title_query": title_query,
     }
