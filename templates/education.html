@@ -58,9 +58,13 @@
 
 <script>
     // Konfigurasi
-    const BASE_PROJECTS_ENDPOINT = "{% url 'main:get_educations_json' %}";
+    const BASE_EDUCATIONS_ENDPOINT = "{% url 'main:get_educations_json' %}";
     const IS_SUPERUSER = "{{ user.is_superuser|yesno:'true,false' }}" === "true";
-    let projectsAbortController;
+    let educationsAbortController;
+
+    // Timer & Jeda Debounce
+    const SEARCH_DEBOUNCE_DELAY = 300;
+    let searchDebounceTimer;
 
     // Elemen DOM
     const loadingState = document.getElementById('loading');
@@ -69,9 +73,6 @@
     const gridContainer = document.getElementById('grid');
     const searchForm = document.getElementById('project-search-form');
     const searchInput = document.getElementById('search-input');
-
-        const SEARCH_DEBOUNCE_DELAY = 300;
-        let searchDebounceTimer;
 
     // Menyembunyikan/Menampilkan section halaman
     function displayPageSection({ showLoading = false, showError = false, showEmpty = false, showGrid = false }) {
@@ -82,7 +83,7 @@
     }
 
     // Membuat elemen card education
-    function buildProjectCardElement(item) {
+    function buildEducationCardElement(item) {
         const education = item.fields;
         const educationId = item.pk;
         const articleElement = document.createElement('article');
@@ -97,7 +98,6 @@
         const deleteUrl = "{% url 'main:delete_education' '00000000-0000-0000-0000-000000000000' %}"
             .replace('00000000-0000-0000-0000-000000000000', educationId);
         
-        // Sesuaikan dengan nama route toggle_star milikmu jika berbeda
         const starUrl = "{% url 'main:toggle_education_star' '00000000-0000-0000-0000-000000000000' %}"
             .replace('00000000-0000-0000-0000-000000000000', educationId);
 
@@ -114,7 +114,6 @@
             ? `Dibintangi oleh ${education.starred_by_names}` 
             : "Jadilah yang pertama memberi star";
 
-        // Komponen card
         const completeCardHtml = `
             <span class="experience-category">${categoryText}</span>
             <h2>${education.title}</h2>
@@ -142,30 +141,30 @@
     }
 
     // Fetch data education
-    async function fetchProjects(searchQuery = "") {
-        if (projectsAbortController) projectsAbortController.abort();
-        projectsAbortController = new AbortController();
+    async function fetchEducations(searchQuery = "") {
+        if (educationsAbortController) educationsAbortController.abort();
+        educationsAbortController = new AbortController();
 
         try {
             displayPageSection({ showLoading: true });
             
-            const url = searchQuery ? `${BASE_PROJECTS_ENDPOINT}?title=${encodeURIComponent(searchQuery)}` : BASE_PROJECTS_ENDPOINT;
+            const url = searchQuery ? `${BASE_EDUCATIONS_ENDPOINT}?title=${encodeURIComponent(searchQuery)}` : BASE_EDUCATIONS_ENDPOINT;
             
             const response = await fetch(url, {
                 headers: { 'Accept': 'application/json' },
-                signal: projectsAbortController.signal,
+                signal: educationsAbortController.signal,
             });
 
             if (!response.ok) throw new Error('Failed to fetch data');
 
-            const projectData = await response.json();
+            const educationData = await response.json();
 
-            if (projectData.length === 0) {
+            if (educationData.length === 0) {
                 displayPageSection({ showEmpty: true });
             } else {
                 gridContainer.innerHTML = '';
-                projectData.forEach(item => {
-                    gridContainer.appendChild(buildProjectCardElement(item));
+                educationData.forEach(item => {
+                    gridContainer.appendChild(buildEducationCardElement(item));
                 });
                 displayPageSection({ showGrid: true });
             }
@@ -176,13 +175,27 @@
         }
     }
 
-    // Event Handlers untuk Form Search
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        fetchProjects(searchInput.value.trim());
+    // Langkah 2: Logika Debouncing untuk Pencarian
+    function searchEducations() {
+        fetchEducations(searchInput.value.trim());
+    }
+
+    // Listener saat pengguna mengetik (Event "input")
+    searchInput.addEventListener("input", function() {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(function() {
+            searchEducations();
+        }, SEARCH_DEBOUNCE_DELAY);
+    });
+
+    // Listener saat form disubmit (Klik tombol "Cari" / Tekan Enter)
+    searchForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        clearTimeout(searchDebounceTimer);
+        searchEducations();
     });
 
     // Start application
-    fetchProjects(searchInput.value.trim());
+    searchEducations();
 </script>
 {% endblock content %}

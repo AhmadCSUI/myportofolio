@@ -55,9 +55,13 @@
 
 <script>
     // Konfigurasi
-    const BASE_PROJECTS_ENDPOINT = "{% url 'main:get_experiences_json' %}";
+    const BASE_EXPERIENCES_ENDPOINT = "{% url 'main:get_experiences_json' %}";
     const IS_SUPERUSER = "{{ user.is_superuser|yesno:'true,false' }}" === "true";
-    let projectsAbortController;
+    let experiencesAbortController;
+
+    // Timer & Jeda Debounce
+    const SEARCH_DEBOUNCE_DELAY = 300;
+    let searchDebounceTimer;
 
     // Elemen DOM
     const loadingState = document.getElementById('loading');
@@ -66,9 +70,6 @@
     const gridContainer = document.getElementById('grid');
     const searchForm = document.getElementById('project-search-form');
     const searchInput = document.getElementById('search-input');
-
-        const SEARCH_DEBOUNCE_DELAY = 300;
-        let searchDebounceTimer;
 
     // Menyembunyikan/Menampilkan section halaman
     function displayPageSection({ showLoading = false, showError = false, showEmpty = false, showGrid = false }) {
@@ -79,7 +80,7 @@
     }
 
     // Membuat elemen card experience
-    function buildProjectCardElement(item) {
+    function buildExperienceCardElement(item) {
         const experience = item.fields;
         const experienceId = item.pk;
         const articleElement = document.createElement('article');
@@ -94,7 +95,6 @@
         const deleteUrl = "{% url 'main:delete_experience' '00000000-0000-0000-0000-000000000000' %}"
             .replace('00000000-0000-0000-0000-000000000000', experienceId);
 
-        // Sesuaikan dengan nama route toggle_star milikmu jika berbeda
         const starUrl = "{% url 'main:toggle_experience_star' '00000000-0000-0000-0000-000000000000' %}"
             .replace('00000000-0000-0000-0000-000000000000', experienceId);
 
@@ -111,7 +111,6 @@
             ? `Dibintangi oleh ${experience.starred_by_names}` 
             : "Jadilah yang pertama memberi star";
 
-        // Komponen card
         const completeCardHtml = `
             <span class="experience-category">${categoryText}</span>
             <h2>${experience.title}</h2>
@@ -139,30 +138,30 @@
     }
 
     // Fetch data experience
-    async function fetchProjects(searchQuery = "") {
-        if (projectsAbortController) projectsAbortController.abort();
-        projectsAbortController = new AbortController();
+    async function fetchExperiences(searchQuery = "") {
+        if (experiencesAbortController) experiencesAbortController.abort();
+        experiencesAbortController = new AbortController();
 
         try {
             displayPageSection({ showLoading: true });
             
-            const url = searchQuery ? `${BASE_PROJECTS_ENDPOINT}?title=${encodeURIComponent(searchQuery)}` : BASE_PROJECTS_ENDPOINT;
+            const url = searchQuery ? `${BASE_EXPERIENCES_ENDPOINT}?title=${encodeURIComponent(searchQuery)}` : BASE_EXPERIENCES_ENDPOINT;
             
             const response = await fetch(url, {
                 headers: { 'Accept': 'application/json' },
-                signal: projectsAbortController.signal,
+                signal: experiencesAbortController.signal,
             });
 
             if (!response.ok) throw new Error('Failed to fetch data');
 
-            const projectData = await response.json();
+            const experienceData = await response.json();
 
-            if (projectData.length === 0) {
+            if (experienceData.length === 0) {
                 displayPageSection({ showEmpty: true });
             } else {
                 gridContainer.innerHTML = '';
-                projectData.forEach(item => {
-                    gridContainer.appendChild(buildProjectCardElement(item));
+                experienceData.forEach(item => {
+                    gridContainer.appendChild(buildExperienceCardElement(item));
                 });
                 displayPageSection({ showGrid: true });
             }
@@ -173,13 +172,27 @@
         }
     }
 
-    // Event Handlers untuk Form Search
-    searchForm.addEventListener('submit', function(e) {
-        e.preventDefault();
-        fetchProjects(searchInput.value.trim());
+    // Langkah 2: Logika Debouncing untuk Pencarian
+    function searchExperiences() {
+        fetchExperiences(searchInput.value.trim());
+    }
+
+    // Listener saat pengguna mengetik (Event "input")
+    searchInput.addEventListener("input", function() {
+        clearTimeout(searchDebounceTimer);
+        searchDebounceTimer = setTimeout(function() {
+            searchExperiences();
+        }, SEARCH_DEBOUNCE_DELAY);
+    });
+
+    // Listener saat form disubmit (Klik tombol "Cari" / Tekan Enter)
+    searchForm.addEventListener("submit", function(event) {
+        event.preventDefault();
+        clearTimeout(searchDebounceTimer);
+        searchExperiences();
     });
 
     // Start application
-    fetchProjects(searchInput.value.trim());
+    searchExperiences();
 </script>
 {% endblock content %}
