@@ -14,11 +14,12 @@
             <div class="education-header">
                 <h1>Education</h1>
                 {% if user.is_superuser %}
-                <a href="{% url 'main:create_education' %}"
-                   class="button education-add-button">
-                    <span aria-hidden="true">+</span>
-                    Tambah Riwayat Pendidikan
-                </a>
+<button type="button"
+        class="button education-add-button"
+        popovertarget="add-project-modal">
+    <span aria-hidden="true">+</span>
+    Tambah Riwayat Pendidikan
+</button>
                 {% endif %}
             </div>
 
@@ -55,7 +56,9 @@
         </div>
     </section>
 </main>
-
+{% if user.is_superuser %}
+    {% include "components/education_form_modal.html" %}
+{% endif %}
 <script>
     // Konfigurasi
     const BASE_EDUCATIONS_ENDPOINT = "{% url 'main:get_educations_json' %}";
@@ -141,6 +144,9 @@
     }
 
     // Fetch data education
+        function closeEducationModal() {
+            document.getElementById("add-project-modal").hidePopover();
+        }
     async function fetchEducations(searchQuery = "") {
         if (educationsAbortController) educationsAbortController.abort();
         educationsAbortController = new AbortController();
