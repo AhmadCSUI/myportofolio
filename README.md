@@ -44,3 +44,28 @@ Tools: Cline pake model MiniMax-M2.7-highspeed
 Bagian yang dibantu AI:
 - role-based aaccess
 - django groups untuk role editor
+
+---
+
+## Tugas 5
+
+#### Implementasi
+
+- Halaman education dan experience ngambil data lewat AJAX (fetch) ke endpoint JSON /api/education/ dan /api/experience/
+- Ada state loading, empty, dan error pas data lagi di-fetch
+- Search pakai debouncing biar ga spam request tiap ketikan
+- Form tambah data pake modal (popover), ga pindah halaman lagi
+- Submit form lewat AJAX (POST) yang balikin JsonResponse + HTTP status (201/400/403)
+- CSRF token dikirim lewat header X-CSRFToken
+- Notifikasi sukses/gagal pake toast
+- Data yang dirender di sisi klien di-escape (escapeHtml) biar aman dari XSS
+- Helper getCookie dan escapeHtml dipindah ke static/js/utils.js biar ga duplikat
+
+#### AI Disclosure
+
+Tools: Cline
+Bagian yang dibantu AI:
+- perbaikan bug pada create_education_ajax dan create_experience_ajax
+- perbaikan ID form modal dan fungsi close modal
+- pemindahan getCookie dan escapeHtml ke utils.js
+- penerapan escapeHtml pada rendering data via JS
