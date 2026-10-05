@@ -92,7 +92,7 @@
         const articleElement = document.createElement('article');
         articleElement.className = 'experience-card';
 
-        const categoryText = education.category_display || education.category;
+        const categoryText = escapeHtml(education.category_display || education.category);
         const periodText = education.ended_at 
             ? `${education.started_at} - ${education.ended_at}` 
             : `${education.started_at} - Sekarang`;
@@ -114,14 +114,14 @@
         const isStarredClass = education.is_starred ? " is-starred" : "";
         const starText = education.is_starred ? "Unstar" : "Star";
         const starTitle = education.star_count > 0 
-            ? `Dibintangi oleh ${education.starred_by_names}` 
+            ? `Dibintangi oleh ${escapeHtml(education.starred_by_names)}` 
             : "Jadilah yang pertama memberi star";
 
         const completeCardHtml = `
             <span class="experience-category">${categoryText}</span>
-            <h2>${education.title}</h2>
-            <p class="experience-description">${education.score}</p>
-            <p class="experience-status">${periodText}</p>
+            <h2>${escapeHtml(education.title)}</h2>
+            <p class="experience-description">${escapeHtml(education.score)}</p>
+            <p class="experience-status">${escapeHtml(periodText)}</p>
             <div class="project-card-actions">
                 <div class="project-actions">
                     <form method="post" action="${starUrl}" class="star-form">
