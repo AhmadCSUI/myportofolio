@@ -13,7 +13,7 @@
                 {% if user.is_superuser %}
 <button type="button"
         class="button education-add-button"
-        popovertarget="add-project-modal">
+        popovertarget="add-experience-modal">
     <span aria-hidden="true">+</span>
     Tambah Pengalaman
 </button>
@@ -151,7 +151,7 @@ function escapeHtml(value) {
     }
 
 function closeExperienceModal() {
-    document.getElementById("add-project-modal").hidePopover();
+    document.getElementById("add-experience-modal").hidePopover();
 }
     // Fetch data experience
     async function fetchExperiences(searchQuery = "") {
