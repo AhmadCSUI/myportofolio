@@ -19,11 +19,11 @@ def create_education_ajax(request):
             status=403,
         )
 
-    form = ProjectForm(request.POST)
+    form = EducationForm(request.POST)
     if form.is_valid():
-        project = form.save()
+        education = form.save()
         return JsonResponse(
-            {"message": "Riwayat pendidikan berhasil ditambahkan.", "pk": str(project.id)},
+            {"message": "Riwayat pendidikan berhasil ditambahkan.", "pk": str(education.id)},
             status=201,
         )
 
@@ -37,11 +37,11 @@ def create_experience_ajax(request):
             status=403,
         )
 
-    form = ProjectForm(request.POST)
+    form = ExperienceForm(request.POST)
     if form.is_valid():
-        project = form.save()
+        experience = form.save()
         return JsonResponse(
-            {"message": "Pengalaman berhasil ditambahkan.", "pk": str(project.id)},
+            {"message": "Pengalaman berhasil ditambahkan.", "pk": str(experience.id)},
             status=201,
         )
 
